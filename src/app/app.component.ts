@@ -1,32 +1,36 @@
 import { Component } from '@angular/core';
+import { BehaviorSubject, map } from 'rxjs';
 
 @Component({
   selector: 'ds-root',
+  styles: [
+    '.margin { margin: 30px; }',
+  ],
   template: `
-    <!--The content below is only a placeholder and can be replaced.-->
-    <div style="text-align:center" class="content">
-      <h1>
-        Welcome to {{title}}!
-      </h1>
-      <span style="display: block">{{ title }} app is running!</span>
-      <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-    </div>
-    <h2>Here are some links to help you start: </h2>
-    <ul>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-      </li>
-      <li>
-        <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-      </li>
-    </ul>
-    
+    <input class="btn btn-primary margin" (click)="onDialogOpen()" type="button" value="Open Dialog" />
+    <ng-container *ngIf="vm$ | async as vm">
+      <kendo-dialog (close)="onDialogClose()" *ngIf=vm.dialogVisible title="I'm a dialog" [width]="600">
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+        <kendo-dialog-actions layout="normal">
+          <input class="btn btn-primary" (click)="onDialogClose()" type="button" value="I'm a button" />
+          <input class="btn btn-default" (click)="onDialogClose()" type="button" value="I'm also a button" />
+        </kendo-dialog-actions>
+      </kendo-dialog>
+    </ng-container>
   `,
-  styles: []
 })
 export class AppComponent {
-  title = 'dialog-sample';
+
+  dialogVisible$ = new BehaviorSubject(true);
+
+  vm$ = this.dialogVisible$.pipe(
+    map((dialogVisible) => ({
+      dialogVisible,
+    })),
+  );
+
+  onDialogClose = () => this.dialogVisible$.next(false);
+
+  onDialogOpen = () => this.dialogVisible$.next(true);
+
 }
