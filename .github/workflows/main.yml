@@ -50,3 +50,5 @@ jobs:
           output_location: ${{ env.APP_ARTIFACT_LOCATION }}
           # Token for interacting with the Github repository. Currently used only for commenting on Pull Requests.
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
+          # Skips the build step for the application source code if set to true.
+          skip_app_build: true
