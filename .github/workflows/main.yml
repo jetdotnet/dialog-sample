@@ -15,7 +15,6 @@ on:
 
 # Environment variables available to all jobs and steps in this workflow
 env:
-  APP_LOCATION: "/" # location of your client code
   APP_ARTIFACT_LOCATION: "dist/dialog-sample" # location of client code build output
   AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }} # secret containing deployment token for your static web app
 
@@ -43,11 +42,9 @@ jobs:
           # Action to perform
           action: 'upload'
           # Directory location of the application source code
-          app_location: ${{ env.APP_LOCATION }}
+          app_location: ${{ env.APP_ARTIFACT_LOCATION }}
           # Required token
           azure_static_web_apps_api_token: ${{ env.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # Directory location of the compiled application code after building
-          output_location: ${{ env.APP_ARTIFACT_LOCATION }}
           # Token for interacting with the Github repository. Currently used only for commenting on Pull Requests.
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
           # Skips the build step for the application source code if set to true.
